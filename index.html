@@ -228,6 +228,9 @@ button:hover{
 </div>
 
 <script>
+let usedTruths = [];
+let usedDares = [];
+
 const truths = [
   'Siapa crush kamu di kampus? 😳',
   'Pernah telat karena kesiangan? 😭',
@@ -238,7 +241,47 @@ const truths = [
   'Pernah lupa deadline tugas?',
   'Siapa teman paling chaos di kelas?',
   'Pernah salah kirim chat ke dosen?',
-  'Siapa yang paling mungkin jadi budak revisi?'
+  'Siapa yang paling mungkin jadi budak revisi?',
+  'Pernah bolos kelas?',
+  'Siapa teman paling rajin?',
+  'Pernah nangis gara-gara tugas?',
+  'Pernah ketiduran di perpustakaan?',
+  'Mata kuliah favoritmu?',
+  'Siapa teman paling receh?',
+  'Pernah salah masuk kelas?',
+  'Pernah lupa nama dosen?',
+  'Siapa paling sering traktir?',
+  'Pernah pura-pura paham materi?',
+  'Siapa paling cocok jadi ketua kelas?',
+  'Pernah ngerjain tugas mepet deadline?',
+  'Siapa paling sering telat?',
+  'Pernah ketahuan main HP pas kelas?',
+  'Siapa paling random di tongkrongan?',
+  'Pernah ngantuk banget saat presentasi?',
+  'Pernah typo memalukan di grup kelas?',
+  'Siapa paling aesthetic di kampus?',
+  'Pernah lupa absen?',
+  'Siapa paling berisik di kelas?',
+  'Pernah ngumpulin tugas kosong?',
+  'Pernah malu di depan dosen?',
+  'Siapa paling cocok jadi influencer?',
+  'Pernah nyasar di kampus?',
+  'Pernah ketiduran di kelas offline?',
+  'Siapa paling lucu menurutmu?',
+  'Pernah panik gara-gara revisi?',
+  'Pernah salah jawab pas presentasi?',
+  'Siapa paling sering ngajak nongkrong?',
+  'Pernah ngespam stiker di grup?',
+  'Siapa paling sering bikin ketawa?',
+  'Pernah malu gara-gara voice crack?',
+  'Pernah salah save tugas?',
+  'Siapa paling cocok jadi dosen?',
+  'Pernah ngomong sendiri pas belajar?',
+  'Pernah nyontek dikit?',
+  'Siapa paling pintar di kelas?',
+  'Pernah takut masuk kelas telat?',
+  'Pernah bikin alasan palsu ke dosen?',
+  'Siapa paling mungkin lulus duluan?'
 ];
 
 const dares = [
@@ -248,10 +291,50 @@ const dares = [
   'Spam emoji 😭 ke grup kelas 📱',
   'Ngomong pakai bahasa alien 20 detik 👽',
   'Baca chat terakhir dengan ekspresi drama 😆',
-  'Teriak “AKU BUTUH LIBUR” 🤣',
+  'Teriak AKU BUTUH LIBUR 🤣',
   'Foto selfie paling absurd 📸',
   'Tirukan teman paling lucu 😭',
-  'Bilang “aku sayang tugas” dengan serius 📚'
+  'Bilang aku sayang tugas 📚',
+  'Pakai suara bayi 20 detik 👶',
+  'Nyanyi lagu random tanpa ketawa 🎶',
+  'Tirukan cara jalan dosen 😆',
+  'Bikin ekspresi paling aneh 🤪',
+  'Ngomong pakai logat Jawa 20 detik 😂',
+  'Joget TikTok random 💃',
+  'Teriak nama teman paling dekat 😭',
+  'Bilang gombalan absurd 😳',
+  'Pura-pura jadi MC seminar 🎤',
+  'Baca caption IG terakhir dengan nada sedih 😭',
+  'Ketawa palsu 15 detik 🤣',
+  'Tirukan suara kucing 🐱',
+  'Buat pantun random 😆',
+  'Ngomong tanpa huruf A 20 detik 😂',
+  'Pose ala idol Korea 📸',
+  'Pura-pura presentasi tugas 🤓',
+  'Nyanyi lagu anak kecil 🎶',
+  'Bilang aku miskin kuota 😭',
+  'Tirukan teman paling galak 😆',
+  'Jalan seperti model 10 detik 😎',
+  'Buat suara motor 🏍️',
+  'Pakai filter suara robot 🤖',
+  'Ngomong sambil tahan ketawa 😂',
+  'Tirukan suara dosen killer 😭',
+  'Bilang aku belum ngerjain tugas 😳',
+  'Joget tanpa musik 💃',
+  'Baca pesan lama dengan ekspresi malu 😆',
+  'Teriak semangat kuliah 😭',
+  'Pura-pura nangis karena revisi 😢',
+  'Nyanyi pakai suara cempreng 🎤',
+  'Buat muka paling jelek 🤪',
+  'Tirukan suara ayam 🐔',
+  'Ngomong seperti announcer 😎',
+  'Bilang skripsi kapan selesai 😭',
+  'Pose foto wisuda 📸',
+  'Tirukan teman paling random 😂',
+  'Baca chat dosen dengan nada horror 👻',
+  'Buat slogan kelas 😆',
+  'Ngomong pakai bahasa Inggris ngawur 😂',
+  'Joget sambil tepuk tangan 💃'
 ];
 
 let currentPlayer = '';
@@ -285,12 +368,34 @@ function closePopup(){
 }
 
 function getTruth(){
-  const randomTruth = truths[Math.floor(Math.random()*truths.length)];
+  if(usedTruths.length === truths.length){
+    usedTruths = [];
+  }
+
+  let randomTruth;
+
+  do{
+    randomTruth = truths[Math.floor(Math.random()*truths.length)];
+  }while(usedTruths.includes(randomTruth));
+
+  usedTruths.push(randomTruth);
+
   showPopup('😂 Truth',randomTruth);
 }
 
 function getDare(){
-  const randomDare = dares[Math.floor(Math.random()*dares.length)];
+  if(usedDares.length === dares.length){
+    usedDares = [];
+  }
+
+  let randomDare;
+
+  do{
+    randomDare = dares[Math.floor(Math.random()*dares.length)];
+  }while(usedDares.includes(randomDare));
+
+  usedDares.push(randomDare);
+
   showPopup('🔥 Dare',randomDare);
 }
 
